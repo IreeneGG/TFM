@@ -140,7 +140,7 @@ public class JumpAgent : Agent
         // Restamos la distancia más una penalización constante de -0.01
         float reward = -distanceToGoal * 0.01f;
 
-        Debug.Log($"Distancia al objetivo: {distanceToGoal}, Recompensa calculada: {reward}");
+        //Debug.Log($"Distancia al objetivo: {distanceToGoal}, Recompensa calculada: {reward}");
 
         // Aplicar la recompensa calculada
         AddReward(reward);

@@ -84,7 +84,7 @@ public class MyAgent : Agent
 
         float distanceToBlock = Vector3.Distance(goal.transform.position, block.transform.position) - 5f; // Ajusta el valor 5f según sea necesario; 
 
-        Debug.Log($"Distance to block: {distanceToBlock * -0.01f}");
+        //Debug.Log($"Distance to block: {distanceToBlock * -0.01f}");
         // Recompensar por acercarse al bloque (cerca = más recompensa)
 
         // Penalizar con base en la distancia (lejos = más penalización)
@@ -162,7 +162,7 @@ public class MyAgent : Agent
         //RECOMPENSAS dinámicas por distancia al bloque
         float distanceToBlock = Vector3.Distance(goal.transform.position, block.transform.position) - 5f; // Ajusta el valor 5f según sea necesario; 
 
-        Debug.Log($"Distance to block: {distanceToBlock * -0.01f}");
+        //Debug.Log($"Distance to block: {distanceToBlock * -0.01f}");
         // Recompensar por acercarse al bloque (cerca = más recompensa)
 
         // Penalizar con base en la distancia (lejos = más penalización)

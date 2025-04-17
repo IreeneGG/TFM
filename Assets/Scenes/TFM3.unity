@@ -685,6 +685,7 @@ GameObject:
   - component: {fileID: 223049392}
   - component: {fileID: 223049391}
   - component: {fileID: 223049390}
+  - component: {fileID: 223049395}
   m_Layer: 0
   m_Name: Cube
   m_TagString: block
@@ -805,6 +806,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &223049395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223049389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132eb5e6f1edbb54ba4b297a14dea492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  wall: {fileID: 957573134}
+  goal: {fileID: 1744032450}
 --- !u!1 &254418588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1642,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 600
+  MaxStep: 0
   moveSpeed: 10
   turnSpeed: 200
   jumpForce: 2
@@ -2465,7 +2481,7 @@ GameObject:
   - component: {fileID: 957573137}
   - component: {fileID: 957573136}
   m_Layer: 0
-  m_Name: Cube2
+  m_Name: Pared
   m_TagString: block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3545,7 +3561,6 @@ GameObject:
   - component: {fileID: 1744032454}
   - component: {fileID: 1744032453}
   - component: {fileID: 1744032452}
-  - component: {fileID: 1744032451}
   m_Layer: 0
   m_Name: Goal
   m_TagString: goal
@@ -3553,20 +3568,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1744032451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1744032450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 132eb5e6f1edbb54ba4b297a14dea492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  block: {fileID: 223049389}
-  agent: {fileID: 589536279}
 --- !u!65 &1744032452
 BoxCollider:
   m_ObjectHideFlags: 0
