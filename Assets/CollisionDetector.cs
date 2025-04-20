@@ -8,12 +8,18 @@ public class CollisionDetector : MonoBehaviour
     [SerializeField] private MyAgent agent;
     [SerializeField] private GameObject wall; // Referencia al objeto wall
     [SerializeField] private GameObject goal; // Referencia al objeto goal
+    [SerializeField] private GameObject jumpAgent; // Referencia al objeto jumpAgent
+   
+
 
     private bool touchingGoal = false;
     private bool touchingWall = false;
 
-    private bool activarEntrenamiento2 = false;
- private void OnCollisionEnter(Collision collision)
+    private bool activarEntrenamiento2 = true;
+    
+
+
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == goal)
         {
@@ -57,7 +63,9 @@ public class CollisionDetector : MonoBehaviour
             if (activarEntrenamiento2 == true)
             {
                 Debug.Log("Entrenamiento 2 activado. No acaba el episodio ");
+                jumpAgent.GetComponent<JumpAgent>().EnableAgent(); 
                 agent.DisableAgentTemporarily(35); 
+               
             }
             else
             {
@@ -70,6 +78,6 @@ public class CollisionDetector : MonoBehaviour
             touchingWall = false;
         }
     }
-    
+   
     
 }

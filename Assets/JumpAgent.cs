@@ -20,11 +20,17 @@ public class JumpAgent : Agent
 
     [SerializeField] private Transform initialAgentPosition; // Para almacenar la posición inicial del agente
 
+    private bool canAct = false;
 
-        public override void CollectObservations(VectorSensor sensor)
+    public void EnableAgent()
     {
-        //Debug.Log("Collecting observations...");
+        canAct = true;
+    }
 
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        
+        if (!canAct) return;
         // Agregar la posición (x, y, z) del agente
         sensor.AddObservation(transform.position);  // [x, y, z] del agente
         //Debug.Log($"Agent position: {transform.position}");
@@ -38,7 +44,7 @@ public class JumpAgent : Agent
     public override void OnEpisodeBegin()
     {
 
-
+        canAct = false;
         // Restablecer la posición del agente a su posición inicial
         transform.position = initialAgentPosition.position;
         transform.rotation = initialAgentPosition.rotation;
@@ -106,6 +112,8 @@ public class JumpAgent : Agent
     // }
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (!canAct) return;
+
         int move = actions.DiscreteActions[0];   // 0 = no move, 1 = forward
         int rotate = actions.DiscreteActions[1]; // 0 = no turn, 1 = left, 2 = right
         int jump = actions.DiscreteActions[2];   // 0 = no jump, 1 = jump
