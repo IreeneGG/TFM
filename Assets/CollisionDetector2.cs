@@ -14,6 +14,8 @@ public class CollisionDetector2 : MonoBehaviour
         {
             Debug.Log("GOAL!");
             agent2.AddReward(100f);
+            agent1.AddReward(50f);
+           
             agent1.EndEpisode();
             agent2.EndEpisode();
         }

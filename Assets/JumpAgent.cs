@@ -17,15 +17,17 @@ public class JumpAgent : Agent
 
     [SerializeField] private GameObject goal; // Referencia al objeto block
     private Transform[] spawnPositions; // Array de las posiciones de spawn
+    
+
 
     [SerializeField] private Transform initialAgentPosition; // Para almacenar la posición inicial del agente
 
     private bool canAct = false;
 
-    public void EnableAgent()
-    {
-        canAct = true;
-    }
+    // public void EnableAgent()
+    // {
+    //     canAct = true;
+    // }
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -43,8 +45,8 @@ public class JumpAgent : Agent
     
     public override void OnEpisodeBegin()
     {
-
-        canAct = false;
+        canAct = true; // Habilitar el agente al inicio del episodio
+        //canAct = false;
         // Restablecer la posición del agente a su posición inicial
         transform.position = initialAgentPosition.position;
         transform.rotation = initialAgentPosition.rotation;

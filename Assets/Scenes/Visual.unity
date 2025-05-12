@@ -1431,7 +1431,6 @@ MonoBehaviour:
   agent: {fileID: 1959280871}
   wall: {fileID: 168405789}
   goal: {fileID: 2049572820}
-  jumpAgent: {fileID: 1200949322}
 --- !u!65 &632472468
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2507,7 +2506,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 5cba1a4770645c942a8d44de1d03a1f0, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 7878992bf9a563747b3b38f8c9d7ded8, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: JumpAgent
@@ -3572,7 +3571,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 1c4e1273e28e1f7488e29346f5056576, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 284298aa697d5354496de89f86c5c3db, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: MyAgent
