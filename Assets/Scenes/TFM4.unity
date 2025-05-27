@@ -412,7 +412,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 7f654ec4f1762ee4aa61d093e08cbe0a, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Antagonist
@@ -1084,8 +1084,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 589536279}
-  wall: {fileID: 957573134}
   goal: {fileID: 1744032450}
+  cube: {fileID: 0}
 --- !u!1 &239804737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1444,7 @@ PrefabInstance:
     - target: {fileID: 6271462, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 80a0c45169661ba40a1edf319c7ffbb3, type: 2}
+      objectReference: {fileID: 2100000, guid: 66163cf35956a4be08e801b750c26f33, type: 2}
     - target: {fileID: 6271464, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_LocalScale.y
       value: 6.0676985
@@ -1464,11 +1464,11 @@ PrefabInstance:
     - target: {fileID: 1101848054, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 80a0c45169661ba40a1edf319c7ffbb3, type: 2}
+      objectReference: {fileID: 2100000, guid: 66163cf35956a4be08e801b750c26f33, type: 2}
     - target: {fileID: 1877223446, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 80a0c45169661ba40a1edf319c7ffbb3, type: 2}
+      objectReference: {fileID: 2100000, guid: 66163cf35956a4be08e801b750c26f33, type: 2}
     - target: {fileID: 1877223448, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_LocalScale.y
       value: 5.9766827
@@ -1480,7 +1480,7 @@ PrefabInstance:
     - target: {fileID: 1901930594, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 80a0c45169661ba40a1edf319c7ffbb3, type: 2}
+      objectReference: {fileID: 2100000, guid: 66163cf35956a4be08e801b750c26f33, type: 2}
     - target: {fileID: 1901930596, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_LocalScale.y
       value: 5.8623
@@ -1568,7 +1568,7 @@ PrefabInstance:
     - target: {fileID: 23867896883018740, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a2a830866c1fa2c4fb79a990d14d249a, type: 2}
+      objectReference: {fileID: 2100000, guid: d3855c73a8adc453f89d8df66068f21f, type: 2}
     - target: {fileID: 65575186354124900, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2146,7 +2146,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 284298aa697d5354496de89f86c5c3db, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: e2d683d8bcf9514488753daea7ae2ad2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: MyAgent
@@ -3434,7 +3434,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ec7b6720a01b171488e1c092f8049f5f, type: 2}
+  - {fileID: 2100000, guid: e1f4365b26088274085c34a5a3bc98a6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3726,7 +3726,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 7878992bf9a563747b3b38f8c9d7ded8, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 7f654ec4f1762ee4aa61d093e08cbe0a, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: JumpAgent
@@ -5223,7 +5223,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 284298aa697d5354496de89f86c5c3db, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: e2d683d8bcf9514488753daea7ae2ad2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Antagonist

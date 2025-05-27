@@ -1,91 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CollisionDetector : MonoBehaviour
 {
-    //[SerializeField] private GameObject block;
-    [SerializeField] private MyAgent agent1;
-    [SerializeField] private MyAgent agent2;
-    [SerializeField] private GameObject wall1; // Referencia al objeto wall
-    [SerializeField] private GameObject goal1; // Referencia al objeto goal
-    [SerializeField] private GameObject wall2; // Referencia al objeto wall
-    [SerializeField] private GameObject goal2; // Referencia al objeto goal
-   // [SerializeField] private GameObject jumpAgent; // Referencia al objeto jumpAgent
-   
-
-
-    private bool touchingGoal1 = false;
-    private bool touchingWall1 = false;
-
-    private bool touchingGoal2 = false;
-    private bool touchingWall2 = false;
-
-
-    private bool activarEntrenamiento2 = true;
-    
-
+    [SerializeField] private MyAgent agent;       // El agente ML
+    [SerializeField] private GameObject goal;     // Objeto objetivo
+    [SerializeField] private GameObject cube;     // El bloque que debe tocar el goal
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == goal1)
+        // Verificamos que quien colisiona sea el cubo con el goal
+        if ((gameObject == cube && collision.gameObject == goal) ||
+            (gameObject == goal && collision.gameObject == cube))
         {
-            touchingGoal1 = true;
-            Debug.Log("Tocando el GOAL1");
-            CheckContact(agent1, ref touchingWall1, ref touchingGoal1, "Grupo 0");
-        }
+            Debug.Log("✅ ¡El cubo colisionó con el goal!");
 
-        if (collision.gameObject == wall1)
-        {
-            touchingWall1 = true;
-            Debug.Log("Tocando la PARED1");
-            CheckContact(agent1, ref touchingWall1, ref touchingGoal1, "Grupo 0");
-        }
-        if (collision.gameObject == goal2)
-        {
-            touchingGoal2 = true;
-            Debug.Log("Tocando el GOAL2");
-            CheckContact(agent1, ref touchingWall2, ref touchingGoal2, "Grupo 1");
-        }
-
-        if (collision.gameObject == wall2)
-        {
-            touchingWall2 = true;
-            Debug.Log("Tocando la PARED2");
-            CheckContact(agent1, ref touchingWall2, ref touchingGoal2, "Grupo 1");
+            if (agent != null)
+            {
+                agent.AddReward(1.0f); // Recompensa positiva
+                agent.EndEpisode();    // Terminar episodio
+            }
         }
     }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject == wall1) touchingWall1 = false;
-        if (collision.gameObject == goal1) touchingGoal1 = false;
-        if (collision.gameObject == wall2) touchingWall2 = false;
-        if (collision.gameObject == goal2) touchingGoal2 = false;
-    }
-    
-    private void CheckContact(MyAgent agent, ref bool touchingWall, ref bool touchingGoal, string grupo)
-    {
-        if (touchingWall && touchingGoal)
-        {
-            Debug.Log($"Tocando WALL y GOAL al mismo tiempo - {grupo}");
-            agent.AddReward(100f);
-            Debug.Log($"Recompensa otorgada a {grupo}");
-              
-
-            // Reset para evitar múltiples recompensas
-            touchingWall = false;
-            touchingGoal = false;
-
-            agent1.EndEpisode();
-            agent2.EndEpisode();
-              
-            agent3.EndEpisode();
-            agent4.EndEpisode();
-       
-
-        }
-    }
-   
-    
 }
