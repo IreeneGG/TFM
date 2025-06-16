@@ -12,67 +12,49 @@ public class MyAgent : Agent
 
     private Rigidbody rb;
     private bool isGrounded;
+    public int teamId;
+    [SerializeField] private GameObject block;
+    [SerializeField] private GameObject goal;
+    [SerializeField] private GameObject spawnPositionsContainer;
+    private Transform[] spawnPositions;
 
-    [SerializeField] private GameObject block; // Referencia al objeto block
-    [SerializeField] private GameObject goal; // Referencia al objeto block
-    [SerializeField] private GameObject spawnPositionsContainer; // GameObject que contiene las posiciones de spawn
-    private Transform[] spawnPositions; // Array de las posiciones de spawn
-
-    [SerializeField] private Transform initialAgentPosition; // Para almacenar la posición inicial del agente
-    [SerializeField] private Transform initialBlockPosition; // Para almacenar la posición inicial del bloque
-
+    [SerializeField] private Transform initialAgentPosition;
+    [SerializeField] private Transform initialBlockPosition;
+    [SerializeField] private JumpAgent amigo;
 
     private bool canAct = false;
     private bool disableScheduled = false;
     private int stepsUntilDisable = 0;
 
-        public override void CollectObservations(VectorSensor sensor)
+    public bool printVar = false;
+
+    private float previousDistanceToGoal;
+
+    public override void Initialize()
     {
-        //Debug.Log("Collecting observations...");
-
-        // Agregar la posición (x, y, z) del agente
-        sensor.AddObservation(transform.position);  // [x, y, z] del agente
-        //Debug.Log($"Agent position: {transform.position}");
-
-        // Agregar la posición (x, y, z) del bloque
-        sensor.AddObservation(block.transform.position);  // [x, y, z] del bloque
-        //Debug.Log($"Block position: {block.transform.position}");
-
-        sensor.AddObservation(Vector3.Distance(goal.transform.position, block.transform.position));
+        rb = GetComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
     }
 
-    
-    
     public override void OnEpisodeBegin()
     {
-        // Obtener todas las posiciones de spawn dentro del contenedor
         spawnPositions = spawnPositionsContainer.GetComponentsInChildren<Transform>();
-
-        // Aquí se reinicia el agente y lo habilitamos para actuar
         canAct = true;
         disableScheduled = false;
         stepsUntilDisable = 0;
 
-        // Eliminar el primer transform, que es el contenedor en sí mismo
         if (spawnPositions.Length > 0)
         {
-            // Restablecer la posición del agente a su posición inicial
             transform.position = initialAgentPosition.position;
             transform.rotation = initialAgentPosition.rotation;
 
-            // Restablecer la posición del bloque a una posición aleatoria
             Transform randomSpawnPoint = GetRandomSpawnPoint();
             block.transform.position = randomSpawnPoint.position;
             block.transform.rotation = randomSpawnPoint.rotation;
         }
 
-        // restablecer las velocidades del Rigidbody 
-        Rigidbody agentRb = GetComponent<Rigidbody>();
-        if (agentRb != null)
-        {
-            agentRb.velocity = Vector3.zero;
-            agentRb.angularVelocity = Vector3.zero;
-        }
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
         Rigidbody blockRb = block.GetComponent<Rigidbody>();
         if (blockRb != null)
@@ -81,69 +63,86 @@ public class MyAgent : Agent
             blockRb.angularVelocity = Vector3.zero;
         }
 
+        //float distanceToBlock = Vector3.Distance(goal.transform.position, block.transform.position) - 5f;
+        //AddReward(distanceToBlock * -0.01f);�
 
-        float distanceToBlock = Vector3.Distance(goal.transform.position, block.transform.position) - 5f; // Ajusta el valor 5f según sea necesario; 
-
-        //Debug.Log($"Distance to block: {distanceToBlock * -0.01f}");
-        // Recompensar por acercarse al bloque (cerca = más recompensa)
-
-        // Penalizar con base en la distancia (lejos = más penalización)
-        float distancePenalty = distanceToBlock * -0.01f;
-        AddReward(distancePenalty);
+        previousDistanceToGoal = Vector3.Distance(goal.transform.position, block.transform.position);
     }
 
-    // Método para obtener una posición de spawn aleatoria
     private Transform GetRandomSpawnPoint()
     {
-        // Generar un índice aleatorio entre las posiciones disponibles
-        int randomIndex = Random.Range(1, spawnPositions.Length); // Empezamos desde 1 para evitar el contenedor en sí
+        int randomIndex = Random.Range(1, spawnPositions.Length);
         return spawnPositions[randomIndex];
     }
 
-    void Start()
+    private void OnCollisionStay(Collision collision)
     {
-        rb = GetComponent<Rigidbody>();
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    isGrounded = true;
+                    return;
+                }
+            }
+        }
+        isGrounded = false;
     }
 
-    void FixedUpdate()
+    private void OnCollisionExit(Collision collision)
     {
-        // Raycast desde el centro hacia abajo para detectar si está tocando el suelo
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f);
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            isGrounded = false;
+        }
     }
 
-
-
-
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(transform.position);
+        sensor.AddObservation(block.transform.position);
+        sensor.AddObservation(amigo.transform.position); //conocer observaciones del amigo
+        sensor.AddObservation(Vector3.Distance(goal.transform.position, block.transform.position));
+        sensor.AddObservation(Vector3.Distance(transform.position, block.transform.position));
+        sensor.AddObservation(teamId);
+    }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-
-
         if (!canAct) return;
 
-            if (disableScheduled)
+        if (disableScheduled)
         {
             stepsUntilDisable--;
-
             if (stepsUntilDisable <= 0)
             {
                 canAct = false;
                 disableScheduled = false;
             }
-        } 
-
-        int move = actions.DiscreteActions[0];   // 0 = no move, 1 = forward
-        int rotate = actions.DiscreteActions[1]; // 0 = no turn, 1 = left, 2 = right
-        int jump = actions.DiscreteActions[2];   // 0 = no jump, 1 = jump
-
-        // Movimiento hacia adelante
-        if (move == 1)
-        {
-            Vector3 forwardMove = transform.forward * moveSpeed * Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + forwardMove);
         }
 
-        // Rotación
+        int move = actions.DiscreteActions[0];
+        int rotate = actions.DiscreteActions[1];
+        int jump = actions.DiscreteActions[2];
+
+        Vector3 currentVelocity = rb.velocity;
+        //sss
+        if (move == 1)
+        {
+            Vector3 forwardVelocity = transform.forward * moveSpeed;
+            currentVelocity.x = forwardVelocity.x;
+            currentVelocity.z = forwardVelocity.z;
+        }
+        else
+        {
+            currentVelocity.x = 0f;
+            currentVelocity.z = 0f;
+        }
+
+        rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+
         if (rotate == 1)
         {
             transform.Rotate(Vector3.up, -turnSpeed * Time.fixedDeltaTime);
@@ -153,39 +152,35 @@ public class MyAgent : Agent
             transform.Rotate(Vector3.up, turnSpeed * Time.fixedDeltaTime);
         }
 
-        // Salto
         if (jump == 1 && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+        float currentDistance = Vector3.Distance(goal.transform.position, block.transform.position);
 
-        //RECOMPENSAS dinámicas por distancia al bloque
-        float distanceToBlock = Vector3.Distance(goal.transform.position, block.transform.position) - 5f; // Ajusta el valor 5f según sea necesario; 
+        if (currentDistance < previousDistanceToGoal)
+        {
+            float improvement = previousDistanceToGoal - currentDistance;
+            AddReward(improvement * 10); // Solo recompensa si mejora la mejor marca
+            if (printVar) { Debug.Log(improvement); }
 
-        //Debug.Log($"Distance to block: {distanceToBlock * -0.01f}");
-        // Recompensar por acercarse al bloque (cerca = más recompensa)
+            previousDistanceToGoal = currentDistance; // Actualiza solo si mejora
+        }
 
-        // Penalizar con base en la distancia (lejos = más penalización)
-        float distancePenalty = distanceToBlock * -0.01f;
-        AddReward(distancePenalty);
     }
-
 
     public void DisableAgentTemporarily(int delaySteps = 10)
     {
         disableScheduled = true;
         stepsUntilDisable = delaySteps;
     }
-        
-
-
-
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var discreteActions = actionsOut.DiscreteActions;
-        discreteActions[0] = Input.GetKey(KeyCode.W) ? 1 : 0; // Forward
-        discreteActions[1] = Input.GetKey(KeyCode.A) ? 1 : Input.GetKey(KeyCode.D) ? 2 : 0; // Turn
-        discreteActions[2] = Input.GetKey(KeyCode.Space) ? 1 : 0; // Jump
+        discreteActions[0] = Input.GetKey(KeyCode.W) ? 1 : 0;
+        discreteActions[1] = Input.GetKey(KeyCode.A) ? 1 :
+                             Input.GetKey(KeyCode.D) ? 2 : 0;
+        discreteActions[2] = Input.GetKey(KeyCode.Space) ? 1 : 0;
     }
 }

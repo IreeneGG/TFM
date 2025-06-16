@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TFM3.unity
     guid: 8eafeaae0959b804e9f37e8d42687c2e
+  - enabled: 1
+    path: Assets/Scenes/DuelTeamsScene.unity
+    guid: 3b5bb9f379b3b5b40aa118f959f17180
   m_configObjects: {}
