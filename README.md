@@ -1,5 +1,4 @@
-# PROYECTO DE FIN DE MASTER: Desarrollo de entornos y agentes inteligentes cooperativos mediante aprendizaje
-por refuerzo en simulaciones 3D con ML-Agents
+# PROYECTO DE FIN DE MASTER: Desarrollo de entornos y agentes inteligentes cooperativos mediante aprendizaje por refuerzo en simulaciones 3D con ML-Agents
 
 ## Objetivo principal 🎯:
 El proyecto tiene como finalidad desarrollar un entorno modular en Unity para el entrenamiento de agentes inteligentes multiagente mediante aprendizaje por refuerzo.
